@@ -57,6 +57,17 @@ export default function EventsPage() {
   return (
     <div className="min-h-screen bg-[#FAF9F5] py-5 px-4">
       <div className="max-w-6xl mx-auto">
+        <header className="text-center mb-8">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4" style={{ fontFamily: 'Recoleta, serif' }}>
+            Upcoming Events
+          </h1>
+          <a 
+            href="https://mlpsu.org" 
+            className="text-amber-800 hover:text-amber-900 underline text-lg transition-colors"
+          >
+            ← go back to home
+          </a>
+        </header>
         {events.map((eventId) => (
           <div key={eventId} className="mb-8 flex justify-center">
             <iframe
