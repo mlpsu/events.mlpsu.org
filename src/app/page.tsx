@@ -57,7 +57,7 @@ export default function EventsPage() {
   return (
     <div className="min-h-screen bg-[#FAF9F5] py-5 px-4">
       <div className="max-w-6xl mx-auto">
-        {events.map((eventId, index) => (
+        {events.map((eventId) => (
           <div key={eventId} className="mb-8 flex justify-center">
             <iframe
               src={`https://luma.com/embed/event/${eventId}/simple`}

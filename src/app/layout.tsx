@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://events.mlpsu.org'),
   title: "MLPSU Events",
   description: "Machine Learning at Penn State University events and workshops",
   openGraph: {
