@@ -61,7 +61,9 @@ export default function EventsPage() {
           <div key={eventId} className="mb-8 flex justify-center">
             <iframe
               src={`https://luma.com/embed/event/${eventId}/simple`}
-              className="w-full max-w-none sm:max-w-2xl md:max-w-3xl lg:max-w-4xl h-80 sm:h-96 md:h-[500px] lg:h-[600px] border border-gray-300 rounded"
+              width="600"
+              height="450"
+              className="w-full max-w-[600px] h-auto aspect-[4/3]"
               style={{
                 border: '1px solid #bfcbda88',
                 borderRadius: '4px'
