@@ -1,10 +1,31 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 interface EventsData {
   events: string[];
 }
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: "easeOut" }
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const fadeInScale = {
+  initial: { opacity: 0, scale: 0.95, y: 30 },
+  animate: { opacity: 1, scale: 1, y: 0 },
+  transition: { duration: 0.6, ease: "easeOut" }
+};
 
 export default function EventsPage() {
   const [events, setEvents] = useState<string[]>([]);
@@ -33,7 +54,13 @@ export default function EventsPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#FAF9F5] flex items-center justify-center">
-        <div className="text-gray-600">Loading events...</div>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-gray-600"
+        >
+          Loading events...
+        </motion.div>
       </div>
     );
   }
@@ -41,7 +68,13 @@ export default function EventsPage() {
   if (error) {
     return (
       <div className="min-h-screen bg-[#FAF9F5] flex items-center justify-center">
-        <div className="text-gray-600">Error loading events: {error}</div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-gray-600"
+        >
+          Error loading events: {error}
+        </motion.div>
       </div>
     );
   }
@@ -49,43 +82,80 @@ export default function EventsPage() {
   if (!events.length) {
     return (
       <div className="min-h-screen bg-[#FAF9F5] flex items-center justify-center">
-        <div className="text-gray-600">No events found.</div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-gray-600"
+        >
+          No events found.
+        </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF9F5] py-5 px-4">
+    <motion.div 
+      className="min-h-screen bg-[#FAF9F5] py-5 px-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="max-w-6xl mx-auto">
-        <header className="text-center mb-8">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4" style={{ fontFamily: 'Recoleta, serif' }}>
-            Upcoming Events
-          </h1>
-          <a 
-            href="https://mlpsu.org" 
-            className="text-amber-800 hover:text-amber-900 underline text-lg transition-colors"
+        <motion.header 
+          className="text-center mb-12 pt-16"
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+        >
+          <motion.h1 
+            className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8" 
+            style={{ fontFamily: 'Recoleta, serif' }}
+            variants={fadeInUp}
           >
-            ← go back to home
-          </a>
-        </header>
-        {events.map((eventId) => (
-          <div key={eventId} className="mb-8 flex justify-center">
-            <iframe
-              src={`https://luma.com/embed/event/${eventId}/simple`}
-              width="600"
-              height="450"
-              className="w-full max-w-[600px] h-auto aspect-[4/3]"
-              style={{
-                border: '1px solid #bfcbda88',
-                borderRadius: '4px'
-              }}
-              allow="fullscreen; payment"
-              aria-hidden="false"
-              tabIndex={0}
-            />
-          </div>
-        ))}
+            Upcoming Events
+          </motion.h1>
+          <motion.a 
+            href="https://mlpsu.org" 
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white/60 backdrop-blur-sm border border-amber-200 rounded-full text-amber-800 hover:bg-amber-50 hover:border-amber-300 transition-all duration-200 text-lg font-medium shadow-sm hover:shadow-md"
+            variants={fadeInUp}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <span>←</span>
+            <span>go back to home</span>
+          </motion.a>
+        </motion.header>
+        
+        <motion.div
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+        >
+          {events.map((eventId, index) => (
+            <motion.div 
+              key={eventId} 
+              className="mb-8 flex justify-center"
+              variants={fadeInScale}
+              transition={{ delay: index * 0.1 }}
+            >
+              <iframe
+                src={`https://luma.com/embed/event/${eventId}/simple`}
+                width="600"
+                height="450"
+                className="w-full max-w-[600px] border-0"
+                style={{
+                  border: '1px solid #bfcbda88',
+                  borderRadius: '4px',
+                  aspectRatio: '600 / 450'
+                }}
+                allow="fullscreen; payment"
+                aria-hidden="false"
+                tabIndex={0}
+              />
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
